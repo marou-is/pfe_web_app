@@ -1,0 +1,17 @@
+# Core API
+fastapi==0.115.5
+uvicorn[standard]==0.32.1
+pydantic==2.9.2
+
+# ML / model
+torch==2.3.1
+transformers==4.44.2
+numpy==1.26.4
+nltk==3.9.1
+
+# Optional: TensorFlow/Keras path
+# tensorflow==2.16.1
+
+# Optional: ONNX for faster CPU inference
+# onnxruntime==1.19.2
+# optimum[onnxruntime]==1.22.0

@@ -1,0 +1,22 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install system deps (for tokenizers Rust build)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential curl && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Download NLTK punkt tokeniser data at build time
+RUN python -c "import nltk; nltk.download('punkt'); nltk.download('punkt_tab')"
+
+COPY . .
+
+EXPOSE 8000
+
+# --workers 1 is intentional: loading a large transformer twice wastes RAM.
+# For concurrency, use --workers 1 with async endpoints (FastAPI handles it).
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1"]

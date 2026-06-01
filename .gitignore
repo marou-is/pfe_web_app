@@ -1,0 +1,28 @@
+# Model files (too large for GitHub)
+
+node_modules/
+model_3/
+__pycache__/
+*.pkl
+*.keras
+*.npy
+*.npz
+*.csv
+*.bin
+*.pt
+dist/
+
+# Python
+__pycache__/
+*.pyc
+.env
+
+# Node
+node_modules/
+frontend/node_modules/
+dist/
+frontend/dist/
+model_3/
+
+# Data
+*.csv
