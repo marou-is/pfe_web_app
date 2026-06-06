@@ -1,17 +1,18 @@
 // components/Header.tsx
 import React from 'react'
 
+import logoSrc from '../assets/Logo-04.png'
+
 export default function Header(): React.JSX.Element {
   return (
     <header style={styles.header}>
       <div style={styles.logo}>
-        <div style={styles.logoMark}>T</div>
-        <div>
-          <div style={styles.logoText}>TruthLens</div>
-          <div style={styles.logoSub}>AI Detection Engine</div>
-        </div>
+        <img
+          src={logoSrc}
+          alt="TruthLens"
+          style={{ height: '40px', width: 'auto' }}
+        />
       </div>
-      <div style={styles.badge}>XLM-RoBERTa · v1.0</div>
     </header>
   )
 }
