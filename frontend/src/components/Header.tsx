@@ -10,7 +10,7 @@ export default function Header(): React.JSX.Element {
         <img
           src={logoSrc}
           alt="TruthLens"
-          style={{ height: '40px', width: 'auto' }}
+          style={{ height: '64px', width: 'auto' }}
         />
       </div>
     </header>
