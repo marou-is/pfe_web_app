@@ -34,7 +34,7 @@ export default function VerdictCard({ result }: Props): React.JSX.Element {
     ['words',   word_count],
     ['mode',    mode],
     ['latency', `${Math.round(latency_ms)}ms`],
-    ['model',   'XLM-RoBERTa'],
+    ['model',   'RoBERTa'],
   ]
 
   return (
