@@ -46,7 +46,7 @@ export default function App(): React.JSX.Element {
             <span style={styles.accent}>AI-generated?</span>
           </h1>
           <p style={styles.sub}>
-            Paste any text below. Our XLM-RoBERTa model will analyse it
+            Paste any text below. Our model will analyse it
             {mode === 'article' ? ' sentence by sentence' : ''} and give you a confidence score.
           </p>
         </div>
@@ -95,7 +95,7 @@ export default function App(): React.JSX.Element {
       </main>
 
       <footer style={styles.footer}>
-        <span style={styles.footerText}>TruthLens · XLM-RoBERTa · PFE 2026</span>
+        <span style={styles.footerText}>TruthLens · PFE 2026</span>
       </footer>
     </div>
   )
