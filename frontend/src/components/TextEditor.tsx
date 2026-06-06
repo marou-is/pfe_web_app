@@ -3,8 +3,13 @@ import React, { useRef } from 'react'
 import type { DetectionMode } from '../types'
 
 const MIN_WORDS: Record<DetectionMode, number> = {
-  paragraph: 10,
-  article:   30,
+  paragraph: 50,
+  article:   100,
+}
+
+const MAX_WORDS: Record<DetectionMode, number> = {
+  paragraph: 500,
+  article:   5000,
 }
 
 interface Props {
@@ -20,7 +25,8 @@ export default function TextEditor({ text, onChange, mode, onSubmit, loading }: 
   const words    = text.trim() ? text.trim().split(/\s+/).length : 0
   const chars    = text.length
   const minWords = MIN_WORDS[mode]
-  const ready    = words >= minWords && !loading
+  const maxWords = MAX_WORDS[mode]
+  const ready    = words >= minWords && words <= maxWords && !loading
 
   const handleKey = (e: React.KeyboardEvent<HTMLTextAreaElement>): void => {
     if ((e.ctrlKey || e.metaKey) && e.key === 'Enter' && ready) {
@@ -49,7 +55,11 @@ export default function TextEditor({ text, onChange, mode, onSubmit, loading }: 
           <span style={styles.stat}>
             <span style={{
               fontFamily: 'var(--font-mono)',
-              color: words >= minWords ? 'var(--human-high)' : 'var(--text-3)',
+              color: words > maxWords
+                ? 'var(--ai-mid)'
+                : words >= minWords
+                  ? 'var(--human-high)'
+                  : 'var(--text-3)',
             }}>
               {words}
             </span>
@@ -65,6 +75,14 @@ export default function TextEditor({ text, onChange, mode, onSubmit, loading }: 
               <span style={styles.divider}>·</span>
               <span style={{ ...styles.stat, color: 'var(--ai-mid)', fontFamily: 'var(--font-mono)', fontSize: '0.72rem' }}>
                 {minWords - words} more words needed
+              </span>
+            </>
+          )}
+          {words > maxWords && (
+            <>
+              <span style={styles.divider}>·</span>
+              <span style={{ ...styles.stat, color: 'var(--ai-mid)', fontFamily: 'var(--font-mono)', fontSize: '0.72rem' }}>
+                {words - maxWords} words over limit
               </span>
             </>
           )}
@@ -159,12 +177,12 @@ const styles: Record<string, React.CSSProperties> = {
     opacity:    0.6,
   },
   spinner: {
-    display:          'inline-block',
-    width:            14,
-    height:           14,
-    border:           '2px solid rgba(255,255,255,0.3)',
-    borderTopColor:   '#fff',
-    borderRadius:     '50%',
-    animation:        'spin 0.7s linear infinite',
+    display:        'inline-block',
+    width:          14,
+    height:         14,
+    border:         '2px solid rgba(255,255,255,0.3)',
+    borderTopColor: '#fff',
+    borderRadius:   '50%',
+    animation:      'spin 0.7s linear infinite',
   },
 }
