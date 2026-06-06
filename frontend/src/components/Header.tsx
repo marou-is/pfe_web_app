@@ -1,7 +1,7 @@
 // components/Header.tsx
 import React from 'react'
 
-import logoSrc from '../assets/Logo-04.png'
+import logoSrc from '../assets/Logo-04-cropped.png'
 
 export default function Header(): React.JSX.Element {
   return (
@@ -10,7 +10,7 @@ export default function Header(): React.JSX.Element {
         <img
           src={logoSrc}
           alt="TruthLens"
-          style={{ height: '64px', width: 'auto' }}
+          style={{ height: '48px', width: 'auto' }}
         />
       </div>
     </header>
