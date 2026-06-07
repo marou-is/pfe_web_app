@@ -5,26 +5,36 @@ import ModeToggle      from './components/ModeToggle'
 import TextEditor      from './components/TextEditor'
 import VerdictCard     from './components/VerdictCard'
 import SentenceHeatmap from './components/SentenceHeatmap'
+import LimePanel       from './components/LimePanel'
 import { usePredict }  from './hooks/usePredict'
+import { useLime }     from './hooks/useLime'
 import type { DetectionMode } from './types'
 
 export default function App(): React.JSX.Element {
   const [text, setText] = useState<string>('')
   const [mode, setMode] = useState<DetectionMode>('paragraph')
   const { result, loading, error, predict, reset } = usePredict()
+  const { features, limeLoading, limeError, explain, resetLime } = useLime()
 
   const handleSubmit = (): void => {
     void predict(text, mode)
+    resetLime()
   }
 
   const handleModeChange = (m: DetectionMode): void => {
     setMode(m)
     reset()
+    resetLime()
   }
 
   const handleReset = (): void => {
     setText('')
     reset()
+    resetLime()
+  }
+
+  const handleExplain = (): void => {
+    void explain(text)
   }
 
   return (
@@ -89,6 +99,14 @@ export default function App(): React.JSX.Element {
             {result.sentence_scores && result.sentence_scores.length > 0 && (
               <SentenceHeatmap sentences={result.sentence_scores} />
             )}
+
+            <LimePanel
+              features={features}
+              loading={limeLoading}
+              error={limeError}
+              onExplain={handleExplain}
+              hasResult={!!result}
+            />
           </div>
         )}
 
@@ -113,7 +131,6 @@ const styles: Record<string, React.CSSProperties> = {
     flexDirection: 'column',
     gap:           28,
   },
-
   hero:    { marginBottom: 8 },
   eyebrow: { fontFamily: 'var(--font-mono)', fontSize: '0.68rem', letterSpacing: '0.14em', color: 'var(--accent)', marginBottom: 12 },
   title: {
@@ -126,10 +143,10 @@ const styles: Record<string, React.CSSProperties> = {
     marginBottom:  16,
   },
   accent: {
-    background:              'linear-gradient(135deg, var(--accent) 0%, #a78bfa 100%)',
-    WebkitBackgroundClip:    'text',
-    WebkitTextFillColor:     'transparent',
-    backgroundClip:          'text',
+    background:           'linear-gradient(135deg, var(--accent) 0%, #a78bfa 100%)',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor:  'transparent',
+    backgroundClip:       'text',
   },
   sub: {
     fontFamily: 'var(--font-body)',
@@ -139,14 +156,13 @@ const styles: Record<string, React.CSSProperties> = {
     maxWidth:   520,
     fontWeight: 300,
   },
-
   loadingRow: {
-    display:    'flex',
-    alignItems: 'center',
-    gap:        6,
-    padding:    '12px 20px',
-    background: 'var(--bg-2)',
-    border:     '1px solid var(--border)',
+    display:      'flex',
+    alignItems:   'center',
+    gap:          6,
+    padding:      '12px 20px',
+    background:   'var(--bg-2)',
+    border:       '1px solid var(--border)',
     borderRadius: 'var(--r-md)',
   },
   dot: {
@@ -158,7 +174,6 @@ const styles: Record<string, React.CSSProperties> = {
     display:      'inline-block',
   },
   loadingText: { fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'var(--text-3)', marginLeft: 6 },
-
   errorBox: {
     display:      'flex',
     alignItems:   'center',
@@ -171,12 +186,10 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize:     '0.82rem',
     color:        'var(--ai-high)',
   },
-
-  results: { display: 'flex', flexDirection: 'column', gap: 20, animation: 'fadeUp 0.4s ease' },
+  results:       { display: 'flex', flexDirection: 'column', gap: 20, animation: 'fadeUp 0.4s ease' },
   resultsHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
-  resultsTitle: { fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '0.9rem', color: 'var(--text-2)', textTransform: 'uppercase', letterSpacing: '0.06em' },
-  resetBtn: { fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-3)', background: 'none', border: '1px solid var(--border)', borderRadius: 'var(--r-sm)', padding: '5px 12px', cursor: 'pointer' },
-
-  footer:     { borderTop: '1px solid var(--border)', padding: '16px 40px', textAlign: 'center' },
-  footerText: { fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: 'var(--text-3)', letterSpacing: '0.08em' },
+  resultsTitle:  { fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '0.9rem', color: 'var(--text-2)', textTransform: 'uppercase', letterSpacing: '0.06em' },
+  resetBtn:      { fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-3)', background: 'none', border: '1px solid var(--border)', borderRadius: 'var(--r-sm)', padding: '5px 12px', cursor: 'pointer' },
+  footer:        { borderTop: '1px solid var(--border)', padding: '16px 40px', textAlign: 'center' },
+  footerText:    { fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: 'var(--text-3)', letterSpacing: '0.08em' },
 }
