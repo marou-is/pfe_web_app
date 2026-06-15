@@ -2,9 +2,10 @@
 import React from 'react'
 import ThemeToggle from './ThemeToggle'
 import type { Theme } from '../types'
+import logoSrc from '../assets/Logo-04-cropped.png'
 
 interface Props {
-  theme:        Theme
+  theme:         Theme
   onToggleTheme: () => void
 }
 
@@ -12,13 +13,11 @@ export default function Header({ theme, onToggleTheme }: Props): React.JSX.Eleme
   return (
     <header style={styles.header}>
       <div style={styles.logo}>
-        <div>
-          <img src="./src/assets/Logo-05.png" alt="TruthLens Logo" style={{ width: '70px', height: '70px' }} />
-        </div>
-        <div>
-          <div style={styles.logoText}>TruthLens</div>
-          <div style={styles.logoSub}>AI Detection Engine</div>
-        </div>
+        <img
+          src={logoSrc}
+          alt="TruthLens"
+          style={styles.logoImg}
+        />
       </div>
 
       <div style={styles.right}>
@@ -49,34 +48,9 @@ const styles: Record<string, React.CSSProperties> = {
     alignItems: 'center',
     gap:        '10px',
   },
-  logoMark: {
-    width:          32,
-    height:         32,
-    borderRadius:   '8px',
-    background:     'linear-gradient(135deg, var(--accent) 0%, #a78bfa 100%)',
-    display:        'flex',
-    alignItems:     'center',
-    justifyContent: 'center',
-    fontSize:       16,
-    fontWeight:     700,
-    fontFamily:     'var(--font-display)',
-    color:          '#fff',
-    letterSpacing:  '-0.5px',
-  },
-  logoText: {
-    fontFamily:    'var(--font-display)',
-    fontSize:      '1.1rem',
-    fontWeight:    700,
-    color:         'var(--text)',
-    letterSpacing: '-0.3px',
-  },
-  logoSub: {
-    fontFamily:    'var(--font-mono)',
-    fontSize:      '0.65rem',
-    color:         'var(--text-3)',
-    letterSpacing: '0.08em',
-    textTransform: 'uppercase',
-    marginTop:     1,
+  logoImg: {
+    height: '48px',
+    width:  'auto',
   },
   right: {
     display:    'flex',
