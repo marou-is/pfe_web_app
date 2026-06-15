@@ -2,20 +2,20 @@
 import React, { useState } from 'react'
 import type { SentenceScore, SentenceColorScheme, DetectionLabel } from '../types'
 
-function sentenceColor(prob: number): SentenceColorScheme {
-  if (prob >= 0.75) return { bg: 'rgba(240,74,74,0.22)',  border: 'rgba(240,74,74,0.5)',   text: '#f04a4a' }
-  if (prob >= 0.55) return { bg: 'rgba(245,166,35,0.18)', border: 'rgba(245,166,35,0.45)', text: '#f5a623' }
-  if (prob >= 0.40) return { bg: 'rgba(91,141,239,0.15)', border: 'rgba(91,141,239,0.35)', text: '#5b8def' }
-  return                   { bg: 'rgba(45,212,160,0.12)', border: 'rgba(45,212,160,0.3)',  text: '#2dd4a0' }
+function sentenceColor(prob: number): SentenceColorScheme & { bgDim: string } {
+  if (prob >= 0.75) return { bg: 'color-mix(in srgb, var(--ai-high) 16%, transparent)',    bgDim: 'color-mix(in srgb, var(--ai-high) 9%, transparent)',    border: 'color-mix(in srgb, var(--ai-high) 40%, transparent)',    text: 'var(--ai-high)' }
+  if (prob >= 0.55) return { bg: 'color-mix(in srgb, var(--ai-mid) 16%, transparent)',     bgDim: 'color-mix(in srgb, var(--ai-mid) 9%, transparent)',     border: 'color-mix(in srgb, var(--ai-mid) 40%, transparent)',     text: 'var(--ai-mid)' }
+  if (prob >= 0.40) return { bg: 'color-mix(in srgb, var(--human-mid) 14%, transparent)',  bgDim: 'color-mix(in srgb, var(--human-mid) 8%, transparent)',  border: 'color-mix(in srgb, var(--human-mid) 35%, transparent)',  text: 'var(--human-mid)' }
+  return                   { bg: 'color-mix(in srgb, var(--human-high) 14%, transparent)', bgDim: 'color-mix(in srgb, var(--human-high) 8%, transparent)', border: 'color-mix(in srgb, var(--human-high) 32%, transparent)', text: 'var(--human-high)' }
 }
 
 interface LegendItem { color: string; label: string }
 
 const LEGEND: LegendItem[] = [
-  { color: '#2dd4a0', label: 'Human' },
-  { color: '#5b8def', label: 'Borderline' },
-  { color: '#f5a623', label: 'Suspicious' },
-  { color: '#f04a4a', label: 'AI' },
+  { color: 'var(--human-high)', label: 'Human' },
+  { color: 'var(--human-mid)',  label: 'Borderline' },
+  { color: 'var(--ai-mid)',     label: 'Suspicious' },
+  { color: 'var(--ai-high)',    label: 'AI' },
 ]
 
 interface TooltipProps {
@@ -96,7 +96,7 @@ export default function SentenceHeatmap({ sentences }: Props): React.JSX.Element
               key={i}
               style={{
                 ...styles.sentence,
-                background:   isHovered ? col.bg : col.bg.replace('0.22','0.12').replace('0.18','0.09').replace('0.15','0.08').replace('0.12','0.06'),
+                background:   isHovered ? col.bg : col.bgDim,
                 borderBottom: `2px solid ${col.border}`,
                 color:        isHovered ? col.text : 'var(--text)',
               }}

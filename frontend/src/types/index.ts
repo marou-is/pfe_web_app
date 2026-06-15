@@ -41,3 +41,6 @@ export interface SentenceColorScheme {
   border: string
   text:   string
 }
+
+// Theme
+export type Theme = 'light' | 'dark'

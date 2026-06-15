@@ -1,6 +1,45 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-:root {
+/* ===========================================================
+   LIGHT THEME (default)
+   =========================================================== */
+:root,
+:root[data-theme='light'] {
+  --bg:          #fafafc;
+  --bg-2:        #ffffff;
+  --bg-3:        #f1f1f6;
+  --border:      #e4e4ec;
+  --border-2:    #d3d3e0;
+
+  --text:        #15151f;
+  --text-2:      #5f5f75;
+  --text-3:      #9a9aac;
+
+  --accent:      #7c6af7;
+  --accent-2:    #5b4fd4;
+  --accent-glow: rgba(124,106,247,0.14);
+
+  --ai-high:     #e0383f;
+  --ai-mid:      #e08a1e;
+  --human-high:  #16a87e;
+  --human-mid:   #3f7fe0;
+
+  --font-display: 'Syne', sans-serif;
+  --font-body:    'DM Sans', sans-serif;
+  --font-mono:    'DM Mono', monospace;
+
+  --r-sm: 6px;
+  --r-md: 12px;
+  --r-lg: 20px;
+  --r-xl: 28px;
+
+  --shadow-soft: 0 2px 16px rgba(20,20,40,0.06);
+}
+
+/* ===========================================================
+   DARK THEME (opt-in via data-theme="dark")
+   =========================================================== */
+:root[data-theme='dark'] {
   --bg:          #0a0a0f;
   --bg-2:        #111118;
   --bg-3:        #1a1a24;
@@ -20,14 +59,7 @@
   --human-high:  #2dd4a0;
   --human-mid:   #5b8def;
 
-  --font-display: 'Syne', sans-serif;
-  --font-body:    'DM Sans', sans-serif;
-  --font-mono:    'DM Mono', monospace;
-
-  --r-sm: 6px;
-  --r-md: 12px;
-  --r-lg: 20px;
-  --r-xl: 28px;
+  --shadow-soft: 0 2px 16px rgba(0,0,0,0.3);
 }
 
 html { font-size: 16px; }
@@ -39,6 +71,7 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 ::-webkit-scrollbar { width: 6px; }
